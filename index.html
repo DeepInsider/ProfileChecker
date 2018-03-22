@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Profile Checker for Deep Insider</title>
+
+<!-- Bootstrap core CSS -->
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="https://re.deepinsider.jp/css/site.css">
+
+<style>
+body {
+  padding-top: 54px;
+  color: #666;
+}
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+.container {
+  max-width: 804px;
+}
+.roundface {
+  border-radius: 50%;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Profile Checker for Deep Insider</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="https://deepinsider.github.io">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.d-advantage.jp/en">About</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="https://deepinsider.github.io/services.html">Services</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.buildinsider.net/contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <h1 class="mt-5">Deep Insiderに掲載する<br>プロフィールをチェックするツール</h1>
+    </div>
+  </div>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th class="text-right">プロフィール作成:</th>
+            <td><a href="https://ja.gravatar.com/" target="_blank">Gravatarサイト上でプロフィールを作成</a></td>
+        </tr>
+        <tr>
+            <th colspan="2" class="text-center">
+        <img src="gravatar.png" style="width: 800px; height: 515px;">
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2" class="text-center">
+        ※Gravatarのプロフィールはメールアドレスにひも付いています。<br>　必要に応じて任意のメアドをご使用いただき、それを担当編集者にお知らせください。
+            </th>
+        </tr>
+        <tr>
+            <th class="text-right">使用メールアドレス:</th>
+            <td><input type="text" name="email" id="email" style="width: 100%"></td>
+        </tr>
+        <tr>
+            <th colspan="2" class="text-center">
+            <button id="btnGetSample" type="button" class="btn btn-info">　サンプル取得　</button>
+          <button id="btnGetProfile" type="button" class="btn btn-primary">　MD5ハッシュ値をブラウザー上で生成して、プロフィールをチェック　</button>
+            </th>
+        </tr>
+    </tbody>
+</table>
+
+
+<table class="table table-dark">
+  <tbody>
+    <tr>
+      <th scope="col">メールアドレス</th>
+      <td>{{ profile.email }}</td>
+    </tr>
+    <tr>
+      <th scope="col">MD5ハッシュ値</th>
+      <td>{{ profile.md5hash }}</td>
+    </tr>
+    <tr>
+      <th scope="col">読み方（姓）</th>
+      <td>{{ profile.familyName }}</td>
+    </tr>
+    <tr>
+      <th scope="col">読み方（名）</th>
+      <td>{{ profile.givenName }}</td>
+    </tr>
+    <tr>
+      <th scope="col">著者名／ペンネーム</th>
+      <td>{{ profile.writerName }}</td>
+    </tr>
+    <tr>
+      <th scope="col">プロフィール</th>
+      <td>{{ profile.description }}</td>
+    </tr>
+    <tr>
+      <th scope="col">ウェブサイト</th>
+      <td><span v-if="profile.websites.length" v-repeat="profile.websites">[{{title}}]({{value}})<br></span></td>
+    </tr>
+    <tr>
+      <th scope="col">認証済みサービス</th>
+      <td><span v-if="profile.services.length" v-repeat="profile.services">[{{display}}]({{url}} "{{shortname}}")<br></span></td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="">
+  <thead>
+    <tr>
+      <th scope="col">20px</th>
+      <th scope="col">30px</th>
+      <th scope="col">40px</th>
+      <th scope="col">80px</th>
+      <th scope="col">160px</th>
+      <th scope="col">200px</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img v-attr="src: profile.avatar20" class="roundface">　</td>
+      <td><img v-attr="src: profile.avatar30" class="roundface">　</td>
+      <td><img v-attr="src: profile.avatar40" class="roundface">　</td>
+      <td><img v-attr="src: profile.avatar80" class="roundface">　</td>
+      <td><img v-attr="src: profile.avatar160" class="roundface">　</td>
+      <td><img v-attr="src: profile.avatar200" class="roundface">　</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<div class="linebox da-writer">
+<h4>{{ profile.writerName }}（{{ profile.familyName }} {{ profile.givenName }}）</h4>
+<div class="box-inner" style="min-height: 200px;">
+<div class="da-image da-leftfloat" style="width: 160px; border: 0;">
+<div class="da-image-one"><img v-attr="src: profile.avatar160" alt="{{ profile.writerName }}（{{ profile.familyName }} {{ profile.givenName }}）" border="0" class="da-image-screen roundface"></div>
+</div>
+
+<div v-html="profile.description"></div>
+
+<hr v-if="profile.websites.length|profile.services.length" style="border-style: dashed;border-color: #969696;border-width: 3px;">
+<ul v-if="profile.websites.length" v-repeat="profile.websites" class="da-list-nonumber">
+<li class="da-list-list"><a v-attr="href: value" target="_blank">{{title}}</a></li>
+</ul>
+<ul v-if="profile.services.length" v-repeat="profile.services" class="da-list-nonumber">
+<li class="da-list-list"><a v-attr="href: url, title: shortname" target="_blank">{{display}}</a></li>
+</ul>
+
+</div>
+</div>
+
+  <div class="row">
+    <div class="col-lg-12 text-right">
+
+      <ul class="list-unstyled">
+        <li>&copy; 2018 Digital Advantatge</li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/jquery/jquery.md5.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/vue/vue.min.js"></script>
+
+<script>
+$(function () {
+  var vm = new Vue({
+    el: 'body',
+    data: {
+      profile: {
+        email: 'email',
+        md5hash: 'md5hash',
+        familyName: 'familyName',
+        givenName: 'givenName',
+        writerName: 'writerName',
+        description: '<p></p>',
+        websites: [],
+        services: [],
+        avatar20: 'https://re.deepinsider.jp/img/avatar20.png',
+        avatar30: 'https://re.deepinsider.jp/img/avatar30.png',
+        avatar40: 'https://re.deepinsider.jp/img/avatar40.png',
+        avatar60: 'https://re.deepinsider.jp/img/avatar40.png',
+        avatar80: 'https://re.deepinsider.jp/img/avatar80.png',
+        avatar160: 'https://re.deepinsider.jp/img/avatar160.png',
+        avatar200: 'https://re.deepinsider.jp/img/avatar200.png'
+      }
+    }
+  });
+
+  function getGravatarInfo(emailMd5Hash) {
+    vm.profile.md5hash = emailMd5Hash;
+    vm.profile.familyName = 'familyName';
+    vm.profile.givenName = 'givenName';
+    vm.profile.writerName = 'writerName';
+    vm.profile.description = '<p></p>';
+    vm.profile.websites = [];
+    vm.profile.services = [];
+    vm.profile.avatar20 = 'https://re.deepinsider.jp/img/avatar20.png';
+    vm.profile.avatar30 = 'https://re.deepinsider.jp/img/avatar30.png';
+    vm.profile.avatar40 = 'https://re.deepinsider.jp/img/avatar40.png';
+    vm.profile.avatar60 = 'https://re.deepinsider.jp/img/avatar40.png';
+    vm.profile.avatar80 = 'https://re.deepinsider.jp/img/avatar80.png';
+    vm.profile.avatar160 = 'https://re.deepinsider.jp/img/avatar160.png';
+    vm.profile.avatar200 = 'https://re.deepinsider.jp/img/avatar200.png';
+
+    $.ajax({
+      type: 'GET',
+      url: "https://secure.gravatar.com/avatar/" + emailMd5Hash + "?d=404",
+      crossDomain: true,
+      async: false,
+      success: function(data){
+          vm.profile.avatar20 = 'https://www.gravatar.com/avatar/' + emailMd5Hash + '?s=20';
+          vm.profile.avatar30 = 'https://www.gravatar.com/avatar/' + emailMd5Hash + '?s=30';
+          vm.profile.avatar40 = 'https://www.gravatar.com/avatar/' + emailMd5Hash + '?s=40';
+          vm.profile.avatar60 = 'https://www.gravatar.com/avatar/' + emailMd5Hash + '?s=40';
+          vm.profile.avatar80 = 'https://www.gravatar.com/avatar/' + emailMd5Hash + '?s=80';
+          vm.profile.avatar160 = 'https://www.gravatar.com/avatar/' + emailMd5Hash + '?s=160';
+          vm.profile.avatar200 = 'https://www.gravatar.com/avatar/' + emailMd5Hash + '?s=200';
+      },
+      error: function(xhr, textStatus, errorThrown){
+          vm.profile.avatar20 = 'https://re.deepinsider.jp/img/avatar20.png';
+          vm.profile.avatar30 = 'https://re.deepinsider.jp/img/avatar30.png';
+          vm.profile.avatar40 = 'https://re.deepinsider.jp/img/avatar40.png';
+          vm.profile.avatar60 = 'https://re.deepinsider.jp/img/avatar40.png';
+          vm.profile.avatar80 = 'https://re.deepinsider.jp/img/avatar80.png';
+          vm.profile.avatar160 = 'https://re.deepinsider.jp/img/avatar160.png';
+          vm.profile.avatar200 = 'https://re.deepinsider.jp/img/avatar200.png';
+      }
+    });
+
+    $.ajax({
+      type: 'GET',
+      url: "https://secure.gravatar.com/" + emailMd5Hash + ".json",
+      dataType: "jsonp",
+      crossDomain: true,
+      async: false,
+      jsonpCallback: 'createProfile',
+      success: function(profile){
+        vm.profile.givenName = profile.entry[0].name.givenName;
+        vm.profile.familyName = profile.entry[0].name.familyName;
+        vm.profile.writerName = profile.entry[0].name.formatted;
+        vm.profile.websites = profile.entry[0].urls;
+        vm.profile.services = profile.entry[0].accounts;
+        if (!profile.entry[0].aboutMe) return;
+        var description = [];
+        var lines = profile.entry[0].aboutMe.split(/\r\n|\r|\n/);
+        $.each(lines,
+          function(index, line) {
+            if (!line) {
+              description.push('<p><br></p>');
+            } else if (line.startsWith('■')) {
+               description.push('<h3 class="da-chapter-title">' + line.substring(1) + '</h3>');
+            } else if (line.startsWith('●')) {
+               description.push('<h4 class="da-section-title">' + line.substring(1) + '</h4>');
+            } else if (line.startsWith('○')) {
+               description.push('<h5 class="da-block-title">' + line.substring(1) + '</h5>');
+            } else {
+              description.push('<p>' + line + '</p>');
+            }
+          }
+          );
+        vm.profile.description = description.join("");
+      },
+      error: function(xhr, textStatus, errorThrown){
+        if (xhr.status == 404) {
+          alert('404エラー。\n\n指定のメールアドレスがGravatarに登録されていない可能性があります。\n\n［使用メールアドレス］欄の値をお確かめください。');
+        } else {
+          alert("不明なエラー。\n\nerror-textStatus: " + textStatus + " | error-errorThrown: " + errorThrown);
+        }
+      }
+    });
+  }
+
+  $('#email').change(function() {
+    var email = $("#email").val().trim().toLowerCase();
+    vm.profile.email = email;
+  });
+
+  $('#btnGetSample').click(function(e) {
+    vm.profile.email = "＜サンプルのメールアドレス（非公開）＞";
+    getGravatarInfo("6c25a8ceaf3847291fa2799d56229327");
+  });
+  
+  $('#btnGetProfile').click(function(e) {
+    var email = $("#email").val().trim().toLowerCase();
+    vm.profile.email = email;
+    var emailMd5Hash = $.md5(email);
+    getGravatarInfo(emailMd5Hash);
+  });
+});
+</script>
+
+  </body>
+
+</html>
