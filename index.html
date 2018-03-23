@@ -140,7 +140,7 @@ body {
     </tr>
     <tr>
       <th scope="col">認証済みサービス</th>
-      <td><span v-if="profile.services.length" v-repeat="profile.services">[{{display}}]({{url}} "{{shortname}}")<br></span></td>
+      <td><span v-if="profile.services.length" v-repeat="profile.services">[{{shortname}}]({{url}} "{{display}}")<br></span></td>
     </tr>
   </tbody>
 </table>
@@ -184,7 +184,7 @@ body {
 <li class="da-list-list"><a v-attr="href: value" target="_blank">{{title}}</a></li>
 </ul>
 <ul v-if="profile.services.length" v-repeat="profile.services" class="da-list-nonumber">
-<li class="da-list-list"><a v-attr="href: url, title: shortname" target="_blank">{{display}}</a></li>
+<li class="da-list-list"><a v-attr="href: url, title: display" target="_blank">{{shortname}}</a></li>
 </ul>
 
 </div>
