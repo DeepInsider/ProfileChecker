@@ -136,11 +136,11 @@ body {
     </tr>
     <tr>
       <th scope="col">ウェブサイト</th>
-      <td><span v-if="profile.websites.length" v-repeat="profile.websites">[{{title}}]({{value}})<br></span></td>
+      <td><span v-if="profile.websites.length" v-repeat="profile.websites">[{{ title }}]({{ value }})<br></span></td>
     </tr>
     <tr>
       <th scope="col">認証済みサービス</th>
-      <td><span v-if="profile.services.length" v-repeat="profile.services">[{{shortname}}]({{url}} "{{display}}")<br></span></td>
+      <td><span v-if="profile.services.length" v-repeat="profile.services">[{{ shortname | capitalize }}: {{ display }}]({{ url }})<br></span></td>
     </tr>
   </tbody>
 </table>
@@ -181,10 +181,10 @@ body {
 
 <hr v-if="profile.websites.length|profile.services.length" style="border-style: dashed;border-color: #969696;border-width: 3px;">
 <ul v-if="profile.websites.length" v-repeat="profile.websites" class="da-list-nonumber">
-<li class="da-list-list"><a v-attr="href: value" target="_blank">{{title}}</a></li>
+<li class="da-list-list"><a v-attr="href: value" target="_blank">{{ title }}</a></li>
 </ul>
 <ul v-if="profile.services.length" v-repeat="profile.services" class="da-list-nonumber">
-<li class="da-list-list"><a v-attr="href: url, title: display" target="_blank">{{shortname}}</a></li>
+<li class="da-list-list"><a v-attr="href: url" target="_blank">{{ shortname | capitalize }}: {{ display }}</a></li>
 </ul>
 
 </div>
