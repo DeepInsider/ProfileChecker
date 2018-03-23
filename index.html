@@ -115,6 +115,10 @@ body {
       <td>{{ profile.md5hash }}</td>
     </tr>
     <tr>
+      <th scope="col">パーマリンクURL</th>
+      <td>https://deepinsider.github.io/ProfileChecker/?md5hash={{ profile.md5hash }}</td>
+    </tr>
+    <tr>
       <th scope="col">読み方（姓）</th>
       <td>{{ profile.familyName }}</td>
     </tr>
@@ -276,7 +280,6 @@ $(function () {
       url: "https://secure.gravatar.com/" + emailMd5Hash + ".json",
       dataType: "jsonp",
       crossDomain: true,
-      async: false,
       jsonpCallback: 'createProfile',
       success: function(profile){
         vm.profile.givenName = profile.entry[0].name.givenName;
@@ -330,6 +333,19 @@ $(function () {
     var emailMd5Hash = $.md5(email);
     getGravatarInfo(emailMd5Hash);
   });
+
+  if (location.search) {
+    location.search.substr(1).split("&").forEach(function (item) {
+      var s = item.split("=");
+      var k = decodeURIComponent(s[0]).toLowerCase();
+      if (k === 'md5hash') {
+        var v = decodeURIComponent(s[1]).toLowerCase();
+        vm.profile.email = "＜メールアドレス不明（ハッシュ値をパラメーターから取得）＞";
+        getGravatarInfo(v);
+      }
+    });
+  }
+
 });
 </script>
 
