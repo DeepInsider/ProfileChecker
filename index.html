@@ -119,12 +119,12 @@ body {
       <td>https://deepinsider.github.io/ProfileChecker/?md5hash={{ profile.md5hash }}</td>
     </tr>
     <tr>
-      <th scope="col">読み方（姓）</th>
-      <td>{{ profile.familyName }}</td>
+      <th scope="col">読み方 （日本語：姓、 英語：Given Name）</th>
+      <td>{{ profile.givenName }}</td>
     </tr>
     <tr>
-      <th scope="col">読み方（名）</th>
-      <td>{{ profile.givenName }}</td>
+      <th scope="col">読み方 （日本語：名、 英語：Family Name）</th>
+      <td>{{ profile.familyName }}</td>
     </tr>
     <tr>
       <th scope="col">著者名／ペンネーム</th>
@@ -171,7 +171,7 @@ body {
 <hr>
 
 <div class="linebox da-writer">
-<h4>{{ profile.writerName }}（{{ profile.familyName }} {{ profile.givenName }}）</h4>
+<h4>{{ profile.writerName }}（{{ profile.givenName }} {{ profile.familyName }}）</h4>
 <div class="box-inner" style="min-height: 200px;">
 <div class="da-image da-leftfloat" style="width: 160px; border: 0;">
 <div class="da-image-one"><img v-attr="src: profile.avatar160" alt="{{ profile.writerName }}（{{ profile.familyName }} {{ profile.givenName }}）" border="0" class="da-image-screen roundface"></div>
